@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <script src="jquery/jquery.min.js"></script>
+  <script src="popper/popper.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="requirejs/require.js"></script>
+  <script>var workshop_base_url = "/workshop";</script>
+  
+  <link rel="stylesheet" href="asciidoctor/css/asciidoctor.css">
+  
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/workshop.css">
+  <link rel="stylesheet" href="css/workshop-asciidoc.css">
+  
+</head>
+</body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <a href="index.html" class="logo">Red Hat OpenShift Virtualization Roadshow</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Main -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 d-sm-block d-none">
+        <!-- Table of Contents -->
+        <ul class="menu">
+          <li class="category">
+            <ul class="modules">
+              <h5 class="category-title">Workshop Modules</h5>
+              
+                
+                  <li class="page"><a href="index.html">Welcome</a></li>
+                
+              
+                
+                  <li class="page"><a href="02_migrate_vms.html">Migrating Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="03_ocpv_basics.html">OpenShift Virtualization Basics</a></li>
+                
+              
+                
+                  <li class="page"><a href="04_thanks.html">Thank you and next steps</a></li>
+                
+              
+                
+                  <li class="page"><a href="05_ocpv_customization.html">Optional: Customize Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page active"><a href="06_windows_vm.html">Optional: Windows Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="07_bare_metal.html">Optional: Bare Metal OpenShift Overview</a></li>
+                
+              
+                
+                  <li class="page"><a href="08_network_management.html">Optional: Network Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="09_storage_management.html">Optional: Storage Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="10_backup_restore.html">Optional: Backup and Restore</a></li>
+                
+              
+                
+                  <li class="page"><a href="11_metallb.html">Optional: Exposing apps using MetalLB</a></li>
+                
+              
+                
+                  <li class="page"><a href="12_service_route.html">Optional: Exposing apps using a Route</a></li>
+                
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-9">
+        <section class="page-content">
+          <!-- Top Navigation -->
+          <div class="btn-group btn-group-xs float-right">
+            
+              <button type="button" onclick="location.href='/workshop/05_ocpv_customization';" class="btn btn-xs btn-transparent" aria-label="Prev">
+                <span class="fas fa-arrow-left" aria-hidden="true"></span>
+              </button>
+            
+            <button type="button" onclick="location.href='/workshop/';" class="btn btn-xs btn-transparent" aria-label="Home">
+              <span class="fas fa-home" aria-hidden="true"></span>
+            </button>
+            
+              <button type="button" onclick="location.href='/workshop/07_bare_metal';" class="btn btn-xs btn-transparent" aria-label="Next">
+                <span class="fas fa-arrow-right" aria-hidden="true"></span>
+              </button>
+            
+          </div>
+          <!-- Title -->
+          
+            <h1 class="title">Optional: Windows Virtual Machines</h1>
+          
+          <!-- Content -->
+          <div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="06_windows_vm.html#_create_a_windows_virtual_machine">1. Create a Windows virtual machine</a></li>
+</ul>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This lab will introduce you to the basics of creating and managing Microsoft Windows VMs in OpenShift Virtualization. This process is very similar to creating and managing Linux-based virtual machines, be sure to return to the OpenShift Virtualization Basics module and go through the exercises for reviewing resources and configuration.</p>
+</div>
+<div class="ulist">
+<div class="title">Goals</div>
+<ul>
+<li>
+<p>Create a new Windows virtual machine</p>
+</li>
+<li>
+<p>Customize the OS using sysprep</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_windows_virtual_machine">1. Create a Windows virtual machine</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this segment, we will install Microsoft Windows Server 2019 using an ISO hosted on a web server. This represents one way to install an operating system to a virtual machine that takes advantage of the ability to source disks from many locations, including a web server, object storage, or other persistent volumes in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>This process can be streamlined after the initial operating system installation by creating a template from the virtual machine. The specific process for preparing the guest operating system to be used as a template will vary, be sure to follow your organization&#8217;s guidelines and requirements when preparing a template OS.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the left menu, navigate to <strong>Virtualization</strong> &#8594; <strong>VirtualMachines</strong>:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/01_Left_Menu.png" alt="01 Left Menu">
+</div>
+</div>
+</li>
+<li>
+<p>It will list the VMs running in the current project.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/25_List_VMs.png" alt="25 List VMs">
+</div>
+</div>
+</li>
+<li>
+<p>Press on the top-right the button <strong>Create</strong> and select <strong>From template</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/26_From_Template.png" alt="26 From Template">
+</div>
+</div>
+</li>
+<li>
+<p>Scroll down and select <strong>Microsoft Windows Server 2019 VM</strong> tile.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/27_Windows_2k9_Tile.png" alt="27 Windows 2k9 Tile">
+</div>
+</div>
+</li>
+<li>
+<p>A dialog will appear showing the default configuration related to the template.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/28_Windows_2k9_Dialog.png" alt="28 Windows 2k9 Dialog">
+</div>
+</div>
+</li>
+<li>
+<p>Press <strong>Customize VirtualMachine</strong> to specify the parameters to be used for the provisioning.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/29_Windows_2k9_Parameters.png" alt="29 Windows 2k9 Parameters">
+</div>
+</div>
+</li>
+<li>
+<p>In this dialog:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Specify the name <code>windows</code></p>
+</li>
+<li>
+<p>Enable the checkbox <strong>Boot from CD</strong> and specify the url: <a href="http://192.168.123.100:81/Windows2019.iso" class="bare">http://192.168.123.100:81/Windows2019.iso</a></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Reduce the CD disk size to <strong>5 GiB</strong>.</p>
+</li>
+<li>
+<p>Keep the <code>Disk source</code> size disk to the default value <strong>60 GiB</strong></p>
+</li>
+<li>
+<p>Ensure the <code>Mount Windows drivers disk</code> is enabled. This is required to install Windows systems, which will provide the drivers for VirtIO.</p>
+</li>
+<li>
+<p>Press <strong>Next</strong> after filling in the parameters.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/30_Windows_2k9_Parameters_Filled.png" alt="30 Windows 2k9 Parameters Filled">
+</div>
+</div>
+</li>
+<li>
+<p>Switch to the <strong>Scripts</strong> tab and press <strong>Edit</strong> on the <code>Sysprep</code> section</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/30_Windows_2k9_Scripts.png" alt="30 Windows 2k9 Scripts">
+</div>
+</div>
+</li>
+<li>
+<p>Fill the <code>autounattend.xml</code> form with the following code</p>
+<div class="listingblock copy">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:schemas-microsoft-com:unattend"&gt;
+  &lt;settings pass="windowsPE"&gt;
+    &lt;component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;DiskConfiguration&gt;
+        &lt;Disk wcm:action="add"&gt;
+          &lt;CreatePartitions&gt;
+            &lt;CreatePartition wcm:action="add"&gt;
+              &lt;Order&gt;1&lt;/Order&gt;
+              &lt;Extend&gt;true&lt;/Extend&gt;
+              &lt;Type&gt;Primary&lt;/Type&gt;
+            &lt;/CreatePartition&gt;
+          &lt;/CreatePartitions&gt;
+          &lt;ModifyPartitions&gt;
+            &lt;ModifyPartition wcm:action="add"&gt;
+              &lt;Active&gt;true&lt;/Active&gt;
+              &lt;Format&gt;NTFS&lt;/Format&gt;
+              &lt;Label&gt;System&lt;/Label&gt;
+              &lt;Order&gt;1&lt;/Order&gt;
+              &lt;PartitionID&gt;1&lt;/PartitionID&gt;
+            &lt;/ModifyPartition&gt;
+          &lt;/ModifyPartitions&gt;
+          &lt;DiskID&gt;0&lt;/DiskID&gt;
+          &lt;WillWipeDisk&gt;true&lt;/WillWipeDisk&gt;
+        &lt;/Disk&gt;
+      &lt;/DiskConfiguration&gt;
+      &lt;ImageInstall&gt;
+        &lt;OSImage&gt;
+          &lt;InstallFrom&gt;
+            &lt;MetaData wcm:action="add"&gt;
+              &lt;Key&gt;/IMAGE/NAME&lt;/Key&gt;
+              &lt;Value&gt;Windows Server 2019 SERVERSTANDARD&lt;/Value&gt;
+            &lt;/MetaData&gt;
+          &lt;/InstallFrom&gt;
+          &lt;InstallTo&gt;
+            &lt;DiskID&gt;0&lt;/DiskID&gt;
+            &lt;PartitionID&gt;1&lt;/PartitionID&gt;
+          &lt;/InstallTo&gt;
+        &lt;/OSImage&gt;
+      &lt;/ImageInstall&gt;
+      &lt;UserData&gt;
+        &lt;AcceptEula&gt;true&lt;/AcceptEula&gt;
+        &lt;FullName&gt;Administrator&lt;/FullName&gt;
+        &lt;Organization&gt;My Organization&lt;/Organization&gt;
+      &lt;/UserData&gt;
+      &lt;EnableFirewall&gt;false&lt;/EnableFirewall&gt;
+    &lt;/component&gt;
+    &lt;component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;SetupUILanguage&gt;
+        &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
+      &lt;/SetupUILanguage&gt;
+      &lt;InputLocale&gt;en-US&lt;/InputLocale&gt;
+      &lt;SystemLocale&gt;en-US&lt;/SystemLocale&gt;
+      &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
+      &lt;UserLocale&gt;en-US&lt;/UserLocale&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+  &lt;settings pass="offlineServicing"&gt;
+    &lt;component name="Microsoft-Windows-LUA-Settings" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;EnableLUA&gt;false&lt;/EnableLUA&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+  &lt;settings pass="specialize"&gt;
+    &lt;component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;AutoLogon&gt;
+        &lt;Password&gt;
+          &lt;Value&gt;R3dh4t1!&lt;/Value&gt;
+          &lt;PlainText&gt;true&lt;/PlainText&gt;
+        &lt;/Password&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;LogonCount&gt;999&lt;/LogonCount&gt;
+        &lt;Username&gt;Administrator&lt;/Username&gt;
+      &lt;/AutoLogon&gt;
+      &lt;OOBE&gt;
+        &lt;HideEULAPage&gt;true&lt;/HideEULAPage&gt;
+        &lt;HideLocalAccountScreen&gt;true&lt;/HideLocalAccountScreen&gt;
+        &lt;HideOnlineAccountScreens&gt;true&lt;/HideOnlineAccountScreens&gt;
+        &lt;HideWirelessSetupInOOBE&gt;true&lt;/HideWirelessSetupInOOBE&gt;
+        &lt;NetworkLocation&gt;Work&lt;/NetworkLocation&gt;
+        &lt;ProtectYourPC&gt;3&lt;/ProtectYourPC&gt;
+        &lt;SkipMachineOOBE&gt;true&lt;/SkipMachineOOBE&gt;
+      &lt;/OOBE&gt;
+      &lt;UserAccounts&gt;
+        &lt;LocalAccounts&gt;
+          &lt;LocalAccount wcm:action="add"&gt;
+            &lt;Description&gt;Local Administrator Account&lt;/Description&gt;
+            &lt;DisplayName&gt;Administrator&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Name&gt;Administrator&lt;/Name&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+      &lt;TimeZone&gt;Eastern Standard Time&lt;/TimeZone&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+  &lt;settings pass="oobeSystem"&gt;
+    &lt;component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;InputLocale&gt;en-US&lt;/InputLocale&gt;
+      &lt;SystemLocale&gt;en-US&lt;/SystemLocale&gt;
+      &lt;UILanguage&gt;en-US&lt;/UILanguage&gt;
+      &lt;UserLocale&gt;en-US&lt;/UserLocale&gt;
+    &lt;/component&gt;
+    &lt;component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS"&gt;
+      &lt;AutoLogon&gt;
+        &lt;Password&gt;
+          &lt;Value&gt;R3dh4t1!&lt;/Value&gt;
+          &lt;PlainText&gt;true&lt;/PlainText&gt;
+        &lt;/Password&gt;
+        &lt;Enabled&gt;true&lt;/Enabled&gt;
+        &lt;LogonCount&gt;999&lt;/LogonCount&gt;
+        &lt;Username&gt;Administrator&lt;/Username&gt;
+      &lt;/AutoLogon&gt;
+      &lt;OOBE&gt;
+        &lt;HideEULAPage&gt;true&lt;/HideEULAPage&gt;
+        &lt;HideLocalAccountScreen&gt;true&lt;/HideLocalAccountScreen&gt;
+        &lt;HideOnlineAccountScreens&gt;true&lt;/HideOnlineAccountScreens&gt;
+        &lt;HideWirelessSetupInOOBE&gt;true&lt;/HideWirelessSetupInOOBE&gt;
+        &lt;NetworkLocation&gt;Work&lt;/NetworkLocation&gt;
+        &lt;ProtectYourPC&gt;3&lt;/ProtectYourPC&gt;
+        &lt;SkipMachineOOBE&gt;true&lt;/SkipMachineOOBE&gt;
+      &lt;/OOBE&gt;
+      &lt;UserAccounts&gt;
+        &lt;LocalAccounts&gt;
+          &lt;LocalAccount wcm:action="add"&gt;
+            &lt;Description&gt;Local Administrator Account&lt;/Description&gt;
+            &lt;DisplayName&gt;Administrator&lt;/DisplayName&gt;
+            &lt;Group&gt;Administrators&lt;/Group&gt;
+            &lt;Name&gt;Administrator&lt;/Name&gt;
+          &lt;/LocalAccount&gt;
+        &lt;/LocalAccounts&gt;
+      &lt;/UserAccounts&gt;
+      &lt;TimeZone&gt;Eastern Standard Time&lt;/TimeZone&gt;
+    &lt;/component&gt;
+  &lt;/settings&gt;
+&lt;/unattend&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Click <strong>Save</strong> on the dialog</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/30_Windows_2k9_Sysprep.png" alt="30 Windows 2k9 Sysprep">
+</div>
+</div>
+</li>
+<li>
+<p>Press <strong>Create VirtualMachine</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/31_Windows_2k9_Create.png" alt="31 Windows 2k9 Create">
+</div>
+</div>
+</li>
+<li>
+<p>The Virtual Machine will start the provisioning process by downloading the ISO image, configuring, and starting the instance.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/32_Windows_2k9_Provisioning.png" alt="32 Windows 2k9 Provisioning">
+</div>
+</div>
+</li>
+<li>
+<p>After a few minutes, the Virtual VM will be in <code>Running</code> status. Switch to the <strong>Console</strong> tab:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Create_VM_PVC/33_Windows_2k9_Console.png" alt="33 Windows 2k9 Console">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+It is not necessary for this workshop to wait for the installation to complete. You can continue to the next module.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The VM is marked as "Not migratable" because a CD-ROM disk is attached.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+          <!-- Bottom Navigation -->
+          <div class="page-meta clearfix">
+            
+              
+                <input type="button" class="btn btn-lg btn-primary float-right" onclick="location.href='/workshop/07_bare_metal';" value="Continue" />
+              
+            
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+  </footer>
+  <!-- Javascript-->
+  <script src="js/workshop.js"></script>
+  <script src="js/workshop-asciidoc.js"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <script src="jquery/jquery.min.js"></script>
+  <script src="popper/popper.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="requirejs/require.js"></script>
+  <script>var workshop_base_url = "/workshop";</script>
+  
+  <link rel="stylesheet" href="asciidoctor/css/asciidoctor.css">
+  
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/workshop.css">
+  <link rel="stylesheet" href="css/workshop-asciidoc.css">
+  
+</head>
+</body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <a href="index.html" class="logo">Red Hat OpenShift Virtualization Roadshow</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Main -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 d-sm-block d-none">
+        <!-- Table of Contents -->
+        <ul class="menu">
+          <li class="category">
+            <ul class="modules">
+              <h5 class="category-title">Workshop Modules</h5>
+              
+                
+                  <li class="page"><a href="index.html">Welcome</a></li>
+                
+              
+                
+                  <li class="page"><a href="02_migrate_vms.html">Migrating Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="03_ocpv_basics.html">OpenShift Virtualization Basics</a></li>
+                
+              
+                
+                  <li class="page"><a href="04_thanks.html">Thank you and next steps</a></li>
+                
+              
+                
+                  <li class="page"><a href="05_ocpv_customization.html">Optional: Customize Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="06_windows_vm.html">Optional: Windows Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="07_bare_metal.html">Optional: Bare Metal OpenShift Overview</a></li>
+                
+              
+                
+                  <li class="page"><a href="08_network_management.html">Optional: Network Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="09_storage_management.html">Optional: Storage Management</a></li>
+                
+              
+                
+                  <li class="page active"><a href="10_backup_restore.html">Optional: Backup and Restore</a></li>
+                
+              
+                
+                  <li class="page"><a href="11_metallb.html">Optional: Exposing apps using MetalLB</a></li>
+                
+              
+                
+                  <li class="page"><a href="12_service_route.html">Optional: Exposing apps using a Route</a></li>
+                
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-9">
+        <section class="page-content">
+          <!-- Top Navigation -->
+          <div class="btn-group btn-group-xs float-right">
+            
+              <button type="button" onclick="location.href='/workshop/09_storage_management';" class="btn btn-xs btn-transparent" aria-label="Prev">
+                <span class="fas fa-arrow-left" aria-hidden="true"></span>
+              </button>
+            
+            <button type="button" onclick="location.href='/workshop/';" class="btn btn-xs btn-transparent" aria-label="Home">
+              <span class="fas fa-home" aria-hidden="true"></span>
+            </button>
+            
+              <button type="button" onclick="location.href='/workshop/11_metallb';" class="btn btn-xs btn-transparent" aria-label="Next">
+                <span class="fas fa-arrow-right" aria-hidden="true"></span>
+              </button>
+            
+          </div>
+          <!-- Title -->
+          
+            <h1 class="title">Optional: Backup and Restore</h1>
+          
+          <!-- Content -->
+          <div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="10_backup_restore.html#_introduction">Introduction</a></li>
+<li><a href="10_backup_restore.html#_review_operator">Review Operator</a></li>
+<li><a href="10_backup_restore.html#_create_a_backup">Create a backup</a></li>
+<li><a href="10_backup_restore.html#_restore_a_backup">Restore a backup</a></li>
+<li><a href="10_backup_restore.html#_summary">Summary</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_introduction">Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are multiple options for backup and restore of virtual machines with OpenShift Virtualization.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://docs.openshift.com/container-platform/4.13/backup_and_restore/application_backup_and_restore/oadp-features-plugins.html"><strong>OADP (OpenShift APIs for Data Protection)</strong></a>: A Red Hat Operator which provides a storage agnostic method to back up and restore OpenShift objects, including virtual machines.</p>
+</li>
+<li>
+<p><a href="https://docs.kasten.io/latest/usage/openshift_virtualization.html"><strong>Kasten K10 by Veeam</strong></a></p>
+</li>
+<li>
+<p><a href="https://docs.trilio.io/kubernetes/appendix/backup-and-restore-virtual-machine-running-on-openshift-virtualization"><strong>Trilio for Kubernetes</strong></a></p>
+</li>
+<li>
+<p><a href="https://storware.eu/solutions/containers-backup-and-recovery/red-hat-openshift-backup-restore/"><strong>Storware Backup and Recovery</strong></a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Additionally, many storage partners offer the ability to protect virtual machine disks using their native technology. Be sure to check with your storage and backup vendor(s) to determine compatibility with OpenShift Virtualization.</p>
+</div>
+<div class="paragraph">
+<p>This lab will use OADP to perform a virtual machine backup and restore.</p>
+</div>
+<div class="ulist">
+<div class="title">Goals</div>
+<ul>
+<li>
+<p>Review Operator</p>
+</li>
+<li>
+<p>Perform a backup</p>
+</li>
+<li>
+<p>Perform a restore</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_review_operator">Review Operator</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate in the left menu to <strong>Operators</strong> &#8594; <strong>Installed Operators</strong> and ensure that <code>All projects</code> is selected. Select <code>OADP Operator</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/00_Left_Menu.png" alt="00 Left Menu">
+</div>
+</div>
+</li>
+<li>
+<p>Review the <strong>Provided APIs</strong> available. In this module, the <code>Backup</code> and <code>Restore</code> functions will be used.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/01_Overview.png" alt="01 Overview">
+</div>
+</div>
+</li>
+<li>
+<p>Navigate to the tab <strong>DataProtectionApplication</strong>. This object represents the configuration of the deployed OADP instance.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/02_DPA.png" alt="02 DPA">
+</div>
+</div>
+</li>
+<li>
+<p>Select <code>oadp-dpa</code> and review the <em>YAML</em> definition</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/03_OADP_YAML.png" alt="03 OADP YAML">
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that <strong>OADP</strong> has been configured by adding the <code>kubevirt</code> plugin and it has been configured to use the internal object storage bucket provided by <strong>Red Hat Storage</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In a production environment you would want to backup to an external storage system, however, in this lab, we are using internal object storage for the sake of convenience.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_create_a_backup">Create a backup</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You will perform a backup of the VM <code>fedora02</code>. The selection of the objects to be backed up is defined by the labels <code>app</code> and <code>vm.kubevirt.io/name</code>. This includes the VM definition, disks, and additional objects being used by the virtual machine such as config maps and secrets.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go back one screen to the main Operator page by clicking on the Operator name</p>
+</li>
+<li>
+<p>Navigate to the <strong>Backup</strong> tab and press <strong>Create Backup</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/04_Backup_Tab.png" alt="04 Backup Tab">
+</div>
+</div>
+</li>
+<li>
+<p>Switch to the <em>YAML view</em> and replace the content with the following one:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: backup-fedora02
+  labels:
+    velero.io/storage-location: default
+  namespace: openshift-adp
+spec:
+  hooks: {}
+  orLabelSelectors:
+  - matchLabels:
+      app: fedora02
+  - matchLabels:
+      vm.kubevirt.io/name: fedora02
+  includedNamespaces:
+  - vmexamples
+  storageLocation: oadp-dpa-1
+  ttl: 720h0m0s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that the content of this YAML indicates that any object with the labels <code>app: fedora02</code> in the namespace <code>vmexamples</code> will be backed up to the location specified in the <code>DataProtectionApplication</code> configuration.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+If you do not have the <code>fedora02</code> VM, change the label selectors in the YAML above to match a virtual machine in your environment.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Wait till the <code>Status</code> column changes to <code>Completed</code>. This indicates that the virtual machine has been successfully backed up.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/05_Backup_Completed.png" alt="05 Backup Completed">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_restore_a_backup">Restore a backup</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Virtualization</strong> &#8594; <strong>VirtualMachines</strong> and delete the VM <code>fedora02</code>.</p>
+</li>
+<li>
+<p>Go back to <strong>Operators</strong> &#8594; <strong>Installed Operators</strong> and select <strong>OADP Operator</strong>.</p>
+</li>
+<li>
+<p>Switch to the <strong>Restore</strong> tab and press <strong>Create Restore</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/06_Restore_Tab.png" alt="06 Restore Tab">
+</div>
+</div>
+</li>
+<li>
+<p>Switch to the YAML view and replace the content with the following one:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">apiVersion: velero.io/v1
+kind: Restore
+metadata:
+  name: restore-fedora02
+  namespace: openshift-adp
+spec:
+  backupName: backup-fedora02
+  includedResources: []
+  excludedResources:
+  - nodes
+  - events
+  - events.events.k8s.io
+  - backups.velero.io
+  - restores.velero.io
+  restorePVs: true</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Wait till the <code>Status</code> column changes to <code>Completed</code>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/07_Restore_Completed.png" alt="07 Restore Completed">
+</div>
+</div>
+</li>
+<li>
+<p>Navigate back to <strong>Virtualization</strong> &#8594; <strong>Virtual Machines</strong> and ensure the <code>fedora02</code> was restored.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/Backup/08_VM_Restored.png" alt="08 VM Restored">
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary">Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Protecting virtual machines is a critical aspect of a virtualization platform. OpenShift Virtualization provides multiple methods that enable native protection, for example using OADP, or allowing storage and backup partners to integrate their offerings. If you have questions about how to protect virtual machines, please don&#8217;t hesitate to ask the proctors for the workshop or reach out to your vendor to determine their compatibility with OpenShift Virtualization.</p>
+</div>
+</div>
+</div>
+          <!-- Bottom Navigation -->
+          <div class="page-meta clearfix">
+            
+              
+                <input type="button" class="btn btn-lg btn-primary float-right" onclick="location.href='/workshop/11_metallb';" value="Continue" />
+              
+            
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+  </footer>
+  <!-- Javascript-->
+  <script src="js/workshop.js"></script>
+  <script src="js/workshop-asciidoc.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <script src="jquery/jquery.min.js"></script>
+  <script src="popper/popper.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="requirejs/require.js"></script>
+  <script>var workshop_base_url = "/workshop";</script>
+  
+  <link rel="stylesheet" href="asciidoctor/css/asciidoctor.css">
+  
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/workshop.css">
+  <link rel="stylesheet" href="css/workshop-asciidoc.css">
+  
+</head>
+</body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <a href="index.html" class="logo">Red Hat OpenShift Virtualization Roadshow</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Main -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 d-sm-block d-none">
+        <!-- Table of Contents -->
+        <ul class="menu">
+          <li class="category">
+            <ul class="modules">
+              <h5 class="category-title">Workshop Modules</h5>
+              
+                
+                  <li class="page"><a href="index.html">Welcome</a></li>
+                
+              
+                
+                  <li class="page"><a href="02_migrate_vms.html">Migrating Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="03_ocpv_basics.html">OpenShift Virtualization Basics</a></li>
+                
+              
+                
+                  <li class="page active"><a href="04_thanks.html">Thank you and next steps</a></li>
+                
+              
+                
+                  <li class="page"><a href="05_ocpv_customization.html">Optional: Customize Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="06_windows_vm.html">Optional: Windows Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="07_bare_metal.html">Optional: Bare Metal OpenShift Overview</a></li>
+                
+              
+                
+                  <li class="page"><a href="08_network_management.html">Optional: Network Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="09_storage_management.html">Optional: Storage Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="10_backup_restore.html">Optional: Backup and Restore</a></li>
+                
+              
+                
+                  <li class="page"><a href="11_metallb.html">Optional: Exposing apps using MetalLB</a></li>
+                
+              
+                
+                  <li class="page"><a href="12_service_route.html">Optional: Exposing apps using a Route</a></li>
+                
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-9">
+        <section class="page-content">
+          <!-- Top Navigation -->
+          <div class="btn-group btn-group-xs float-right">
+            
+              <button type="button" onclick="location.href='/workshop/03_ocpv_basics';" class="btn btn-xs btn-transparent" aria-label="Prev">
+                <span class="fas fa-arrow-left" aria-hidden="true"></span>
+              </button>
+            
+            <button type="button" onclick="location.href='/workshop/';" class="btn btn-xs btn-transparent" aria-label="Home">
+              <span class="fas fa-home" aria-hidden="true"></span>
+            </button>
+            
+              <button type="button" onclick="location.href='/workshop/05_ocpv_customization';" class="btn btn-xs btn-transparent" aria-label="Next">
+                <span class="fas fa-arrow-right" aria-hidden="true"></span>
+              </button>
+            
+          </div>
+          <!-- Title -->
+          
+            <h1 class="title">Thank you and next steps</h1>
+          
+          <!-- Content -->
+          <div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="04_thanks.html#_but_wait_theres_more">1. But wait, there&#8217;s more!</a>
+<ul class="sectlevel2">
+<li><a href="04_thanks.html#_virtual_machine_administrators">1.1. <strong>Virtual machine administrators</strong></a></li>
+<li><a href="04_thanks.html#_virtual_infrastructure_administrators">1.2. <strong>Virtual infrastructure administrators</strong></a></li>
+<li><a href="04_thanks.html#_virtual_machine_users">1.3. <strong>Virtual machine users</strong></a></li>
+</ul>
+</li>
+<li><a href="04_thanks.html#_thank_you_for_attending_the_openshift_virtualization_roadshow">2. Thank you for attending the OpenShift Virtualization Roadshow!</a></li>
+</ul>
+</div>
+<div class="sect1">
+<h2 id="_but_wait_theres_more">1. But wait, there&#8217;s more!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Depending on your role and interests, you might be interested in completing some of the additional modules for this workshop:</p>
+</div>
+<div class="sect2">
+<h3 id="_virtual_machine_administrators">1.1. <strong>Virtual machine administrators</strong></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Customize Virtual Machines</em>: One of the most important concepts when running virtual machines is to run the VMs from an existing disk image and also have the capability to customize the VMs.</p>
+</li>
+<li>
+<p><em>Windows Virtual Machines</em>: Microsoft Windows Server is a commonly used operating system, no virtualization solution would be complete if it wasn&#8217;t supported! This lab shows one method of provisioning a Windows Server virtual machine, including customization with SysPrep.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_virtual_infrastructure_administrators">1.2. <strong>Virtual infrastructure administrators</strong></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Bare metal OpenShift overview</em>: Managing OpenShift nodes and resources is different than you might be used to. This module explores some aspects and concepts of OpenShift that are important if you&#8217;re responsible for the server hardware.</p>
+</li>
+<li>
+<p><em>Network Management</em>: Virtual machines, by default, connect to the OpenShift internal software defined network. This section will demonstrate how to connect VMs to an external physical network, such as a VLAN.</p>
+</li>
+<li>
+<p><em>Storage Management</em>: This module will introduce you to the basics of storage on OpenShift and how OpenShift Virtualization automatically provides boot sources for some machine images. This module will also show how to perform operations with snapshots and how to clone a VM.</p>
+</li>
+<li>
+<p><em>Backup and Restore</em>: Protecting virtual machines, and their data, is just as important as the performance and availability. See how the OpenShift API for Data Protection (OADP) provides a storage agnostic way to protect VMs in this lab.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_virtual_machine_users">1.3. <strong>Virtual machine users</strong></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Exposing apps using a Route</em>: This lab walks through the process of using a Service and Route to provide internal-only connectivity between application components, then expose only the application&#8217;s front end to the world.</p>
+</li>
+<li>
+<p><em>Exposing apps using MetalLB</em>: Providing connectivity to VM-hosted applications, without putting the VM on an external L2 network, is a powerful way to manage connectivity to the application. This lab walks through the process of exposing just the database to the world, without connecting the VM to the external network.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thank_you_for_attending_the_openshift_virtualization_roadshow">2. Thank you for attending the OpenShift Virtualization Roadshow!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We appreciate your time and effort to gain familiarity with OpenShift Virtualization! If you have questions, please don&#8217;t hesitate to ask the proctor(s) in the room during your workshop, or reach out to your Red Hat account team at any time.</p>
+</div>
+<div class="paragraph">
+<p>If you would like to learn more about OpenShift Virtualization, please visit the <a href="https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization">landing page</a>, review the <a href="https://docs.openshift.com/container-platform/latest/virt/about_virt/about-virt.html">documentation</a>, or view some of our demo videos on <a href="https://www.youtube.com/playlist?list=PLaR6Rq6Z4IqeQeTosfoFzTyE_QmWZW6n_">YouTube</a>.</p>
+</div>
+</div>
+</div>
+          <!-- Bottom Navigation -->
+          <div class="page-meta clearfix">
+            
+              
+                <input type="button" class="btn btn-lg btn-primary float-right" onclick="location.href='/workshop/05_ocpv_customization';" value="Continue" />
+              
+            
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+  </footer>
+  <!-- Javascript-->
+  <script src="js/workshop.js"></script>
+  <script src="js/workshop-asciidoc.js"></script>
+</body>
+</html>

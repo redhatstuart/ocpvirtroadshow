@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <script src="jquery/jquery.min.js"></script>
+  <script src="popper/popper.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="requirejs/require.js"></script>
+  <script>var workshop_base_url = "/workshop";</script>
+  
+  <link rel="stylesheet" href="asciidoctor/css/asciidoctor.css">
+  
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="css/workshop.css">
+  <link rel="stylesheet" href="css/workshop-asciidoc.css">
+  
+</head>
+</body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <a href="index.html" class="logo">Red Hat OpenShift Virtualization Roadshow</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Main -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 d-sm-block d-none">
+        <!-- Table of Contents -->
+        <ul class="menu">
+          <li class="category">
+            <ul class="modules">
+              <h5 class="category-title">Workshop Modules</h5>
+              
+                
+                  <li class="page"><a href="index.html">Welcome</a></li>
+                
+              
+                
+                  <li class="page"><a href="02_migrate_vms.html">Migrating Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="03_ocpv_basics.html">OpenShift Virtualization Basics</a></li>
+                
+              
+                
+                  <li class="page"><a href="04_thanks.html">Thank you and next steps</a></li>
+                
+              
+                
+                  <li class="page"><a href="05_ocpv_customization.html">Optional: Customize Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="06_windows_vm.html">Optional: Windows Virtual Machines</a></li>
+                
+              
+                
+                  <li class="page"><a href="07_bare_metal.html">Optional: Bare Metal OpenShift Overview</a></li>
+                
+              
+                
+                  <li class="page"><a href="08_network_management.html">Optional: Network Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="09_storage_management.html">Optional: Storage Management</a></li>
+                
+              
+                
+                  <li class="page"><a href="10_backup_restore.html">Optional: Backup and Restore</a></li>
+                
+              
+                
+                  <li class="page active"><a href="11_metallb.html">Optional: Exposing apps using MetalLB</a></li>
+                
+              
+                
+                  <li class="page"><a href="12_service_route.html">Optional: Exposing apps using a Route</a></li>
+                
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-9">
+        <section class="page-content">
+          <!-- Top Navigation -->
+          <div class="btn-group btn-group-xs float-right">
+            
+              <button type="button" onclick="location.href='/workshop/10_backup_restore';" class="btn btn-xs btn-transparent" aria-label="Prev">
+                <span class="fas fa-arrow-left" aria-hidden="true"></span>
+              </button>
+            
+            <button type="button" onclick="location.href='/workshop/';" class="btn btn-xs btn-transparent" aria-label="Home">
+              <span class="fas fa-home" aria-hidden="true"></span>
+            </button>
+            
+              <button type="button" onclick="location.href='/workshop/12_service_route';" class="btn btn-xs btn-transparent" aria-label="Next">
+                <span class="fas fa-arrow-right" aria-hidden="true"></span>
+              </button>
+            
+          </div>
+          <!-- Title -->
+          
+            <h1 class="title">Optional: Exposing apps using MetalLB</h1>
+          
+          <!-- Content -->
+          <div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="11_metallb.html#_metallb_concepts">1. MetalLB concepts</a>
+<ul class="sectlevel2">
+<li><a href="11_metallb.html#_layer2_mode">1.1. Layer2 mode</a></li>
+<li><a href="11_metallb.html#_layer_3_bgp_mode">1.2. Layer 3 (BGP) mode</a></li>
+</ul>
+</li>
+<li><a href="11_metallb.html#_define_ip_addresspool">2. Define IP AddressPool</a>
+<ul class="sectlevel2">
+<li><a href="11_metallb.html#_configure_layer2_mode">2.1. Configure Layer2 mode</a></li>
+</ul>
+</li>
+<li><a href="11_metallb.html#_expose_the_database_node_externally">3. Expose the database node externally</a></li>
+<li><a href="11_metallb.html#_summary">4. Summary</a></li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In this lab, you will review the MetalLB operator and expose virtual machine hosted applications outside of the cluster.</p>
+</div>
+<div class="sect1">
+<h2 id="_metallb_concepts">1. MetalLB concepts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using MetalLB is valuable when you have a bare-metal cluster or a virtual infrastructure that is treated like bare-metal, and you want to ensure fault-tolerant access to an application through an external IP address.</p>
+</div>
+<div class="paragraph">
+<p>For MetalLB to meet this need, you must configure your networking infrastructure to ensure that the network traffic for the external IP address is routed from clients to the host network for the cluster.</p>
+</div>
+<div class="paragraph">
+<p>It can operate in two modes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>MetalLB operating in layer2 mode</strong> provides support for failover by utilizing a mechanism similar to IP failover. However, instead of relying on the virtual router redundancy protocol (VRRP) and keepalived, MetalLB leverages a gossip-based protocol to identify instances of node failure. When a failure is detected, another node assumes the role of the leader node, and a gratuitous ARP message is dispatched to broadcast this change.</p>
+</li>
+<li>
+<p><strong>MetalLB operating in layer3 or border gateway protocol (BGP) mode</strong> delegates failure detection to the network. The <em>BGP</em> router or routers that the <strong>OpenShift Container Platform</strong> nodes have established a connection with will identify any node failure and terminate the routes to that node.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Using MetalLB instead of IP failover is preferable for ensuring high availability of pods and services.</p>
+</div>
+<div class="sect2">
+<h3 id="_layer2_mode">1.1. Layer2 mode</h3>
+<div class="paragraph">
+<p>In layer 2 mode, the speaker pod on one node announces the external IP address for a service to the host network. From a network perspective, the node appears to have multiple IP addresses assigned to a network interface.</p>
+</div>
+<div class="paragraph">
+<p>In layer 2 mode, all traffic for a service IP address is routed through one node. After traffic enters the node, the service proxy for the CNI network provider distributes the traffic to all the pods for the service.</p>
+</div>
+<div class="paragraph">
+<p>When a node becomes unavailable, failover is automatic. The speaker pods on the other nodes detect that a node is unavailable, and a new speaker pod on a surviving node will take ownership of the service IP address from the failed node.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/00_layer2.png" alt="00 layer2">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_layer_3_bgp_mode">1.2. Layer 3 (BGP) mode</h3>
+<div class="paragraph">
+<p>In BGP mode, by default, each speaker pod advertises the load balancer IP address for a service to each BGP peer. It is also possible to advertise the IPs coming from a given pool to a specific set of peers by adding an optional list of BGP peers. BGP peers are commonly network routers that are configured to use the BGP protocol. When a router receives traffic for the load balancer IP address, the router picks one of the nodes with a speaker pod that advertised the IP address. The router sends the traffic to that node. After traffic enters the node, the service proxy for the CNI network plugin distributes the traffic to all the pods for the service.</p>
+</div>
+<div class="paragraph">
+<p>If a node becomes unavailable, the router then initiates a new connection with another node that has a speaker pod that is advertising the load balancer IP address.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/00_bgp.png" alt="00 bgp">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_define_ip_addresspool">2. Define IP AddressPool</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For this lab, we will use the same network where the OpenShift Cluster nodes are located (<code>192.168.123.0/24</code>) and for this exercise we will reserve the IP range <code>192.168.123.200-192.168.123.250</code> to be used for load balanced services in the OpenShift cluster.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the left navigation menu, browse to <strong>Operators &#8594; Installed Operators</strong>, switch to project <code>metallb-system</code>. Then choose the MetalLB Operator</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/40_navigation.png" alt="40 navigation">
+</div>
+</div>
+</li>
+<li>
+<p>Switch the tab <strong>IPAddressPool</strong> (you may need to scroll the tabs to the right to see it) and press <strong>Create IPAddressPool</strong></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/21_navigation.png" alt="21 navigation">
+</div>
+</div>
+</li>
+<li>
+<p>Use the name <code>ip-addresspool-webapp</code> and under section <em>addresses</em>, remove any existing addresses and enter <code>192.168.123.200-192.168.123.250</code> as the address pool. When complete it should look similar to this image:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/09_MetalLB_IPAddressPool_Defined.png" alt="09 MetalLB IPAddressPool Defined">
+</div>
+</div>
+</li>
+<li>
+<p>Scroll down and press <strong>Create</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="_configure_layer2_mode">2.1. Configure Layer2 mode</h3>
+<div class="paragraph">
+<p>For this lab we will use MetalLB in layer2 mode, so we need to create the configuration.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Switch to the <strong>L2Advertisement</strong> tab (you may need to scroll the tab list to the right to see it) and press <strong>Create L2Advertisement</strong>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/22_navigation.png" alt="22 navigation">
+</div>
+</div>
+</li>
+<li>
+<p>Indicate the name <code>l2-adv-webapp</code> and under section <em>ipaddressPools</em> specify the value <code>ip-addresspool-webapp</code> as is shown:</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/10_MetalLB_L2Advertisement.png" alt="10 MetalLB L2Advertisement">
+</div>
+</div>
+</li>
+<li>
+<p>Press <strong>Create</strong></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_expose_the_database_node_externally">3. Expose the database node externally</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you completed the <strong>Exposing apps using a Route</strong> module, the VM is currently accessible from inside the cluster using the Service previously created. In this task, we will expose port 3306 outside of the cluster, making the database available to other virtual machines and consumers not hosted in OpenShift.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Navigate to <strong>Networking</strong> &#8594; <strong>Services</strong> and select the project <code>vmexamples</code></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/11_Services.png" alt="11 Services">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you did not complete the module <strong>Migrating Virtual Machines</strong> you can use pre-existing virtual machines in the <code>vmimported</code> project.</p>
+</div>
+<div class="paragraph">
+<p>If you are using the pre-imported virtual machines, please replace all instances of <code>vmexamples</code> namespace with <code>vmimported</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Press <strong>Create Service</strong> and fill the form with the following code snippet:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: database-metallb
+  namespace: vmexamples
+spec:
+  type: LoadBalancer
+  selector:
+    vm.kubevirt.io/name: database
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Notice the <code>type</code> indicated is <code>LoadBalancer</code>. Since this cluster has MetalLB installed, it will result in the specified port(s) exposed using that. There are other load balancer options available from partners such as F5, Nginx, and more.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Press <strong>Create</strong> and review the <strong>Service</strong> created. Notice the IP address assigned to the load balancer is from the range specified earlier in the lab.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/MetalLB/12_Service_created.png" alt="12 Service created">
+</div>
+</div>
+</li>
+<li>
+<p>To verify connectivity to the database service via the external IP, open the web terminal by clicking the following icon in the right-top part.</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/OCP_Terminal_Icon.png" alt="OCP Terminal Icon">
+</div>
+</div>
+</li>
+<li>
+<p>A console in the bottom part of the screen appears</p>
+<div class="imageblock">
+<div class="content">
+<img src="images/OCP_Terminal.png" alt="OCP Terminal">
+</div>
+</div>
+</li>
+<li>
+<p>Using the right console, try to access the IP assigned and the port 3306</p>
+<div class="listingblock">
+<div class="content">
+<pre class="nowrap">[~] $ curl -s 192.168.123.202:3306 | cut -c1-16</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="nowrap">5.5.68-MariaDB</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary">4. Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>MetalLB is a straightforward and simple solution for bare-metal, on-premises deployments to expose applications outside of the cluster, without the need to configure physical networks with NMstate or multus.</p>
+</div>
+</div>
+</div>
+          <!-- Bottom Navigation -->
+          <div class="page-meta clearfix">
+            
+              
+                <input type="button" class="btn btn-lg btn-primary float-right" onclick="location.href='/workshop/12_service_route';" value="Continue" />
+              
+            
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+  </footer>
+  <!-- Javascript-->
+  <script src="js/workshop.js"></script>
+  <script src="js/workshop-asciidoc.js"></script>
+</body>
+</html>
